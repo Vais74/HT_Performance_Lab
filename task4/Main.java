@@ -1,40 +1,42 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
+
     public static void main(String[] args) {
 
-        try {
-
-            FileReader file = new FileReader(args[0]);
-            BufferedReader br = new BufferedReader(file);
-            String fileNumbers = br.readLine();
-            br.close();
+        String fileName = args[0];
+//        String fileName = "src/numbers.txt";
 
 
-            String[] fileNumbersArray = fileNumbers.split("\\s+");
-            int[] numbers = new int[fileNumbersArray.length];
-            for (int i = 0; i < fileNumbersArray.length; i++) {
-                numbers[i] = Integer.parseInt(fileNumbersArray[i]);
+        List<Integer> numsList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                numsList.add(Integer.parseInt(line.trim()));
             }
-
-
-            Arrays.sort(numbers);
-            int median = numbers[numbers.length / 2];
-
-
-            int moves = 0;
-            for (int num : numbers) {
-                moves += Math.abs(num - median);
-            }
-
-
-            System.out.println(moves);
-
         } catch (IOException e) {
-            System.out.println("Ошибка при чтении файла: " + e.getMessage());
+            e.printStackTrace();
+            return;
         }
+
+        int[] nums = numsList.stream().mapToInt(Integer::intValue).toArray();
+        int result = minMovesToEqual(nums);
+        System.out.println(result);
+    }
+
+    public static int minMovesToEqual(int[] nums) {
+
+        Arrays.sort(nums);
+        int median = nums[nums.length / 2];
+        int moves = 0;
+        for (int num : nums) {
+            moves += Math.abs(num - median);
+        }
+        return moves;
     }
 }
