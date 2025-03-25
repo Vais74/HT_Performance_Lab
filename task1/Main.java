@@ -3,12 +3,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
 
-        System.out.println("введите длинну массива");
-        int n = sc.nextInt();
-        System.out.println("введите интервал длинны");
-        int m = sc.nextInt();
+        int n = Integer.parseInt(args[0]);
+        int m = Integer.parseInt(args[1]);
 
         int[] arr1 = new int[n];
 
